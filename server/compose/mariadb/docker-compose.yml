@@ -1,0 +1,31 @@
+version: "3.2"
+services:
+    mariadb:
+        image: centos/mariadb-103-centos7
+        ports:
+            - "3310:3306"
+        restart: always
+        environment:
+            MYSQL_DATABASE: mydb
+            MYSQL_USER: yanione
+            MYSQL_PASSWORD: ${MARIADB_PASSWORD}
+            MYSQL_ROOT_PASSWORD: ${MARIADB_PASSWORD}
+        volumes:
+            - ./99-custom.cnf:/etc/my.cnf.d/99-custom.cnf:Z
+            - mariadb_data:/var/lib/mysql/data:Z
+            - mariadb_logs:/var/lib/mysql/log:Z
+
+    mariadb_admin:
+        image: phpmyadmin:5.1.1
+        ports:
+            - "3311:80"
+        environment:
+            PMA_HOST: mariadb
+        restart: always
+        links:
+            - mariadb
+volumes:
+    mariadb_data:
+        external: true
+    mariadb_logs:
+        external: true

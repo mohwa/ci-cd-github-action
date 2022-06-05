@@ -1,0 +1,23 @@
+# GraphQL schema example
+#
+# https://gqlgen.com/getting-started/
+# 실제 graphql 을 사용하는 방법을 정의한다.
+
+type Todo {
+  id: Int!
+  name: String!
+}
+
+type Query {
+  # resolver 에 선언된 함수 이름과 매칭되어야한다.
+  # 즉 todos 는 resolver 함수 이름을 정하는것과 같다.
+  todos: [Todo!]!
+}
+
+input NewTodo {
+  name: String!
+}
+
+type Mutation {
+  createTodo(input: NewTodo!): Todo!
+}

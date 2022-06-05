@@ -1,0 +1,45 @@
+name: ci-client
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
+# concurrency 설명
+# https://yceffort.kr/2021/09/github-ci-workflow-for-frontend-developer#%EB%B0%98%EB%B3%B5-%EC%9E%91%EC%97%85-%EC%82%AD%EC%A0%9C%ED%95%98%EA%B8%B0
+concurrency:
+  # ci-client-refs/heads/<branch_name>
+  # ci-client-refs/heads/main
+  # https://docs.github.com/en/actions/learn-github-actions/environment-variables
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint:
+    runs-on: [self-hosted, linux, centos]
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 16.14.2
+
+      - run: npm --prefix client install
+      - run: npm --prefix client run lint
+
+  build:
+    runs-on: [self-hosted, linux, centos]
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 16.14.2
+
+      - run: npm --prefix client install
+      - run: npm --prefix client run build

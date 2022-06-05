@@ -1,0 +1,16 @@
+# file: .golangci.yaml
+#
+# golangci-lint 실행시 사용되는 설정파일
+
+# options for analysis running
+run:
+  # 0 이외의 값을 사용하면, 린팅중 보고되는 이슈에 의해 CI 파이프라인이 실패하게 된다.
+  issues-exit-code: 0
+
+  # _test.go 파일을 린팅할지 여부: citrus는 _test.go 파일을 린팅하지 않기로 함 - 21.07.21
+  tests: false
+
+# output configuration options
+output:
+  format: checkstyle
+  path-prefix: "server"
