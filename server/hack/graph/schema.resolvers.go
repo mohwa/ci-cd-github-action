@@ -11,7 +11,7 @@ import (
 	"github.com/mohwa/ci-cd-github-action/api/graphql/model"
 )
 
-func (r *mutationResolver) CreateTodo(ctx context.Context, input model.NewTodo) (*model.Todo, error) {
+func (r *mutationResolver) CreateTodo(ctx context.Context, input model.TodoInput) (*model.Todo, error) {
 	panic(fmt.Errorf("not implemented"))
 }
 

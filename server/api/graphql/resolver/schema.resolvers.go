@@ -5,16 +5,14 @@ package resolver
 
 import (
 	"context"
-	"github.com/mohwa/ci-cd-github-action/internal/db"
-
-	"github.com/mohwa/ci-cd-github-action/internal/handler/todo"
+	"github.com/mohwa/ci-cd-github-action/internal/handler/graphql/todo"
 
 	"github.com/mohwa/ci-cd-github-action/api/graphql/generated"
 	"github.com/mohwa/ci-cd-github-action/api/graphql/model"
 )
 
-func (r *mutationResolver) CreateTodo(ctx context.Context, input model.NewTodo) (*model.Todo, error) {
-	err := todo.CreateTodo(&db.Todo{Name: input.Name})
+func (r *mutationResolver) CreateTodo(ctx context.Context, input model.TodoInput) (*model.Todo, error) {
+	err := todo.CreateTodo(model.TodoInput{Name: input.Name})
 
 	if err != nil {
 		return nil, err

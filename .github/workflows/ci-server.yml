@@ -1,0 +1,25 @@
+name: ci-server
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
+# concurrency 설명
+# https://yceffort.kr/2021/09/github-ci-workflow-for-frontend-developer#%EB%B0%98%EB%B3%B5-%EC%9E%91%EC%97%85-%EC%82%AD%EC%A0%9C%ED%95%98%EA%B8%B0
+concurrency:
+  # branch 를 기준할때: refs/heads/main
+  # PR 을 기준할때: refs/pull/<pr_number>/merge
+  # tag 를 기준할때: refs/tags/<tag_name>
+
+  # workflow 의 그룹을 각 ${{ github.workflow }}-${{ github.ref }} 로 정의한다.
+  # https://docs.github.com/en/actions/learn-github-actions/contexts#github-context
+  group: ${{ github.workflow }}-${{ github.ref }}
+  # 새로운 workflow 가 실행될때, 이미 실행중인 workflow 가 있다면, 해당 workflow 를 취소한다.
+  cancel-in-progress: true
+
+jobs:
+

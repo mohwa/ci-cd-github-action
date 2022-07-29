@@ -89,7 +89,7 @@ func close() {
 func packageInit() error {
 	// https://gorm.io/docs/connecting_to_the_database.html
 
-	if err := db.Init(fmt.Sprintf("%s?%s", "yanione:password@tcp(127.0.0.1:3310)/mydb", "charset=utf8mb4&parseTime=True&loc=Local")); err != nil {
+	if err := db.Init(fmt.Sprintf("%s?%s", "yanione:password@tcp(127.0.0.1:3310)/tower", "charset=utf8mb4&parseTime=True&loc=Local")); err != nil {
 		return err
 	}
 

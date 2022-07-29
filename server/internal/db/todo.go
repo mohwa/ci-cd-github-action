@@ -6,23 +6,23 @@ import (
 	"gorm.io/gorm"
 )
 
-const tableName = "todo"
+const todoTableName = "todo"
 
 func TodoTable() (*gorm.DB, error) {
-	if !isExistTable(tableName) {
-		return nil, fmt.Errorf("%w: %s", ErrorNoTable, tableName)
+	if !isExistTable(todoTableName) {
+		return nil, fmt.Errorf("%w: %s", ErrorNoTable, todoTableName)
 	}
 
-	return db.Table(tableName).Session(&gorm.Session{}), nil
+	return db.Table(todoTableName).Session(&gorm.Session{}), nil
 }
 
 type Todo struct {
 	ID   int    `gorm:"primaryKey"`
-	Name string `json:"name" gorm:"type:varchar(256); column:name"`
+	Name string `gorm:"type:varchar(256); column:name"`
 }
 
 func (Todo) TableName() string {
-	return tableName
+	return todoTableName
 }
 
 func GetTodos() ([]*Todo, error) {
@@ -32,9 +32,8 @@ func GetTodos() ([]*Todo, error) {
 	}
 
 	var ret []*Todo
-	// &ret Todo 구조체 포인터
+	// 참조값(&ret)을 전달 후, Find 함수를 통해, 그 원본 값(ret)을 수정하게한다.
 	result := table.Find(&ret)
-
 	if result.Error != nil {
 		return nil, result.Error
 	}
@@ -44,13 +43,11 @@ func GetTodos() ([]*Todo, error) {
 
 func CreateTodo(todo *Todo) error {
 	table, err := TodoTable()
-
 	if err != nil {
 		return ErrorTableOpenFail
 	}
 
 	result := table.Create(&todo)
-
 	if result.Error != nil {
 		return result.Error
 	}

@@ -10,10 +10,12 @@ import (
 	graph "github.com/mohwa/ci-cd-github-action/api/graphql/resolver"
 )
 
-func InitRouterGroupGraphQL(graphql *gin.RouterGroup) {
-	graphql.Use(GinContextToContextMiddleware())
-	graphql.POST("/query", graphqlHandler())
-	graphql.GET("/", playgroundHandler())
+func InitRouterGroupGraphQL(graphqlRouterGroup *gin.RouterGroup) {
+	graphqlRouterGroup.Use(GinContextToContextMiddleware())
+
+	graphqlRouterGroup.POST("/query", graphqlHandler())
+	// graphql playground(query test)
+	graphqlRouterGroup.GET("/", playgroundHandler())
 }
 
 // Defining the Graphql handler
@@ -37,6 +39,7 @@ func playgroundHandler() gin.HandlerFunc {
 }
 
 // https://github.com/99designs/gqlgen/blob/master/docs/content/recipes/gin.md#accessing-gincontext
+// Resolver 레벨에서, gin.Context 객체에 접근하기위한 미들웨어를 추가한다.
 func GinContextToContextMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		ctx := context.WithValue(c.Request.Context(), "GinContextKey", c)

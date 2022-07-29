@@ -4,8 +4,8 @@ import { client } from "./index";
 import gql from 'graphql-tag';
 
 const BACKGROUND_COLORS = [
-    // 'red',
-    // 'blue',
+    'red',
+    'blue',
     'yellow',
     'green',
     'gray',
@@ -17,16 +17,6 @@ const BACKGROUND_COLORS = [
 const App = () => {
     const [bgColor, setBgColor] = useState('');
     const [todos, setTodos] = useState([]);
-
-    let cnt = 0;
-
-    const handleBackgroundColor = useCallback((e) => {
-        const { value } = e.target;
-
-        axios.post('api/rest/appInfo', { bgColor: value }).then((response) => {
-            setBgColor(value);
-        });
-    }, []);
 
     const fetchTodos = useCallback(() => {
         client.query({
@@ -45,18 +35,15 @@ const App = () => {
                 setTodos(result.todos);
             })
             .catch((error) => {
-                // reject(toTowerError(error));
+                console.error(error);
             });
     })
 
     const createTodo = useCallback((e) => {
         e.preventDefault();
 
-        const { value } = e.target;
-        console.log(1);
-
         const doc = gql(`
-    mutation createTodo ($input: NewTodo!) {
+    mutation createTodo ($input: TodoInput!) {
           createTodo (input: $input) {
               name
           }
@@ -65,7 +52,7 @@ const App = () => {
             mutation: doc,
             variables: {
                 input: {
-                    name: `test_${cnt++}`,
+                    name: 'testName',
                 },
             }})
             .then((results) => {
@@ -74,12 +61,21 @@ const App = () => {
                 fetchTodos();
             })
             .catch((error) => {
-                // reject(toTowerError(error));
+                console.error(error);
             });
     }, []);
 
+    const setSettings = useCallback((e) => {
+        e.preventDefault();
+        const { value } = e.target;
+
+        axios.post('api/rest/settings', { bgColor: value }).then((response) => {
+            setBgColor(value);
+        });
+    }, []);
+
     useEffect(() => {
-        axios.get('api/rest/appInfo').then((response) => {
+        axios.get('api/rest/settings').then((response) => {
             console.log(response)
             const {bgColor = ''} = response.data.result;
 
@@ -92,6 +88,9 @@ const App = () => {
     return (
         <div>
             <form>
+                <div>
+                    <button onClick={createTodo}>createTodo</button>
+                </div>
                 {BACKGROUND_COLORS.map((value, index) => {
                     let checked = false;
 
@@ -102,8 +101,7 @@ const App = () => {
                     return (
                         <span key={index}>
                             <label htmlFor={value}>{ value }</label>
-                            <input id={value} name="bg_color" type="radio" value={value} checked={checked} onChange={handleBackgroundColor} />
-                            <button onClick={createTodo}>createTodo</button>
+                            <input id={value} name="bg_color" type="radio" value={value} checked={checked} onChange={setSettings} />
                         </span>
                     );
                 })}
@@ -122,7 +120,7 @@ const App = () => {
             </form>
             {todos.map((v) => {
                 return (
-                    <div>{v.name}</div>
+                    <div>{v.name}_{v.id}</div>
                 )
             })}
         </div>

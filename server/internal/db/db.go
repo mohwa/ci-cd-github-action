@@ -75,7 +75,10 @@ func migrateTables() error {
 	}
 
 	// 생성된 구조체를 통해, 관련 DB(테이블 등)가 생성된다.
-	if err := db.AutoMigrate(Todo{}); err != nil {
+	if err := db.AutoMigrate(
+		Todo{},
+		Settings{},
+	); err != nil {
 		return err
 	}
 

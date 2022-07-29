@@ -6,14 +6,14 @@ services:
             - "3310:3306"
         restart: always
         environment:
-            MYSQL_DATABASE: mydb
+            MYSQL_DATABASE: tower
             MYSQL_USER: yanione
-            MYSQL_PASSWORD: ${MARIADB_PASSWORD}
-            MYSQL_ROOT_PASSWORD: ${MARIADB_PASSWORD}
+            MYSQL_PASSWORD: password
+            MYSQL_ROOT_PASSWORD: password
         volumes:
             - ./99-custom.cnf:/etc/my.cnf.d/99-custom.cnf:Z
-            - mariadb_data:/var/lib/mysql/data:Z
-            - mariadb_logs:/var/lib/mysql/log:Z
+            - mariadb_data_tower:/var/lib/mysql/data:Z
+            - mariadb_logs_tower:/var/lib/mysql/log:Z
 
     mariadb_admin:
         image: phpmyadmin:5.1.1
@@ -25,7 +25,7 @@ services:
         links:
             - mariadb
 volumes:
-    mariadb_data:
-        external: true
-    mariadb_logs:
-        external: true
+    mariadb_data_tower:
+      external: true
+    mariadb_logs_tower:
+      external: true
