@@ -5,6 +5,7 @@ package resolver
 
 import (
 	"context"
+
 	"github.com/mohwa/ci-cd-github-action/internal/handler/graphql/todo"
 
 	"github.com/mohwa/ci-cd-github-action/api/graphql/generated"

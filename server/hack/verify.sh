@@ -9,6 +9,7 @@ find_files() {
 }
 
 diff=$(find_files | xargs gofmt -d -s 2>&1) || true
+
 if [[ -n "${diff}" ]]; then
   echo "${diff}" >&2
   echo >&2

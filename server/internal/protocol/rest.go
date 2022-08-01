@@ -1,8 +1,9 @@
 package protocol
 
 import (
-	"github.com/mohwa/ci-cd-github-action/api/rest/model"
 	"net/http"
+
+	"github.com/mohwa/ci-cd-github-action/api/rest/model"
 
 	"github.com/gin-gonic/gin"
 	"github.com/mohwa/ci-cd-github-action/internal/handler/rest/settings"
