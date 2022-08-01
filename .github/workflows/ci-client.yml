@@ -1,3 +1,4 @@
+# ci workflow 과정에서, lint 및 리소스 빌드를 체크한다.
 name: ci-client
 
 on:
@@ -29,7 +30,7 @@ jobs:
           node-version: 16.14.2
 
       - run: npm --prefix client install
-      - run: npm --prefix client run lint
+#      - run: npm --prefix client run lint
 
   build:
     runs-on: [self-hosted, linux, centos]
