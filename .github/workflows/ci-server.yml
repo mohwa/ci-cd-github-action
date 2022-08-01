@@ -39,7 +39,7 @@ jobs:
           go install golang.org/x/tools/cmd/goimports@latest
           make -C server/ verify
   lint:
-    runs-on: [self-hosted, linux, centos]
+    runs-on: [self-hosted, macOS, linux, centos]
     steps:
       - uses: actions/checkout@v2
         with:
@@ -59,7 +59,7 @@ jobs:
           version: v1.45.2
           working-directory: server
   build:
-    runs-on: [self-hosted, linux, centos]
+    runs-on: [self-hosted, macOS, linux, centos]
     steps:
       - uses: actions/checkout@v2
         with:
