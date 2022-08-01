@@ -20,7 +20,7 @@ concurrency:
 
 jobs:
   lint:
-    runs-on: [self-hosted, macOS, linux, centos]
+    runs-on: [self-hosted, macOS]
     steps:
       - uses: actions/checkout@v2
         with:
@@ -33,7 +33,7 @@ jobs:
 #      - run: npm --prefix client run lint
 
   build:
-    runs-on: [self-hosted, macOS, linux, centos]
+    runs-on: [self-hosted, macOS]
     steps:
       - uses: actions/checkout@v2
         with:
