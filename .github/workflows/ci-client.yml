@@ -20,6 +20,7 @@ concurrency:
 
 jobs:
   lint:
+    # https://betterprogramming.pub/run-github-actions-self-hosted-macos-runners-on-apple-m1-mac-b559acd6d783
     runs-on: [self-hosted, macOS]
     steps:
       - uses: actions/checkout@v2
